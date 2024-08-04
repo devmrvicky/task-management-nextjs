@@ -1,6 +1,5 @@
 "use client"
 import Image from 'next/image'
-import { Button } from './ui/button'
 import { useTheme } from 'next-themes'
 import sunImg from "../../public/sun.png"
 import moonImg from "../../public/moon.png"
@@ -8,10 +7,7 @@ import { useEffect } from 'react'
 
 const ThemeButton = () => {
   const {theme, setTheme} = useTheme()
-  // const changeTheme = (theme: String) => {
-  //   setTheme(theme === 'dark' ? "light" : "dark")
-  //   // document.querySelector("html")?.className = theme
-  // }
+  
   useEffect(() => {
     document.querySelector("html")?.setAttribute("data-theme", theme)
     document.querySelector("html")?.setAttribute("class", theme)

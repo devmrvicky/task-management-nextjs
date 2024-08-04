@@ -1,7 +1,7 @@
 import Image from "next/image"
 import logoPng from "../../../public/logo.png"
 
-const Logo = () => {
+const Logo = (): JSX.Element => {
   return (
     <div className="flex items-center gap-2">
       <div className="logo-img w-10 h-auto">

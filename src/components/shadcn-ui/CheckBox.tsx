@@ -1,15 +1,15 @@
 "use client"
 
 import { Checkbox } from "@/components/ui/checkbox"
-import { Todo } from "./DialogBox"
 import { updateData } from "@/indexDB/indexDB"
+import { CheckedState } from "@radix-ui/react-checkbox"
 import { useState } from "react"
 
-export function CheckBoxList({todo}: Todo) {
+export function CheckBoxList({todo}: {todo: Todo}) {
   const [checked, setChecked] = useState(todo?.isCompleted)
-  const handleCheckChange = async (e) => {
-    await updateData({data: {...todo, isCompleted: e}, storeName: "todos"})
-    setChecked(e)
+  const handleCheckChange = async (checked: CheckedState): Promise<void> => {
+    await updateData({data: {...todo, isCompleted: checked}, storeName: "todos"})
+    setChecked(checked)
   }
   return (
     <div className="flex items-center space-x-2">

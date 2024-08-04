@@ -1,9 +1,7 @@
 "use client"
 import { useTheme } from "next-themes";
-
 import { MagicCard } from "@/components/magicui/magic-card";
 import { CheckBoxList } from "./CheckBox";
-import { TodoCard, Todo } from "./DialogBox";
 import { useEffect, useState } from "react";
 import { getAllData } from "@/indexDB/indexDB";
 import { useTodoContext } from "../context/TodoContext";
@@ -12,17 +10,17 @@ import { PopoverDemo as MenuPopoverBtn } from "./Popover";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
-export function Card({id, todoCardTitle, createdAt}: TodoCard) {
-  const [localTodos, setLocalTodos] = useState([])
+export function Card({id, todoCardTitle, createdAt}: TodoCard): JSX.Element {
+  const [localTodos, setLocalTodos] = useState<Todo[]>([])
   const { theme } = useTheme();
-  console.log(theme)
+  
   const color = theme === "dark" ? "#262626" : "#D9D9D955"
   const {todos} = useTodoContext()
 
   useEffect(() => {
     (async () => {
       const allTodos = await getAllData({storeName: 'todos'})
-      const targetTodos = allTodos.filter((todo: Todo) => todo.todoCardId === id)
+      const targetTodos = allTodos.filter((todo) => todo.todoCardId === id)
       // console.log(targetTodos)
       setLocalTodos(targetTodos)
     })()

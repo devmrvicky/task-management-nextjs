@@ -12,10 +12,10 @@ import { HiOutlineTrash, HiTrash } from "react-icons/hi"
 import { VscLoading } from "react-icons/vsc";
 import { useTodoContext } from "../context/TodoContext"
 
-export function PopoverDemo({children, todoCardId, todoIds, className}: Readonly<{children: React.ReactNode, className?: String, todoCardId: String, todoIds: Array<string>}>) {
-  const [deleting, setDeleting] = useState(false)
+export function PopoverDemo({children, todoCardId, todoIds, className}: Readonly<{children: React.ReactNode, className?: string, todoCardId: string, todoIds: Array<string>}>) {
+  const [deleting, setDeleting] = useState<boolean>(false)
   const {removeTodoCard} = useTodoContext()
-  const handleDeleteTodoCard = async () => {
+  const handleDeleteTodoCard = async (): Promise<void> => {
     try {
       setDeleting(true)
       await deleteData({id: todoCardId, storeName: "todo_cards"})

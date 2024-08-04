@@ -1,16 +1,31 @@
 "use client"
-import { useContext, createContext, useState, useEffect } from "react";
-import { Todo, TodoCard } from "../shadcn-ui/DialogBox";
+import { useContext, createContext, useState } from "react";
 
-const TodoContext = createContext({})
+interface TodoContextType {
+  todoCards: TodoCard[];
+  todos: Todo[];
+  setTodoCards: React.Dispatch<React.SetStateAction<TodoCard[]>>;
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  addTodo: (todo: Todo) => void;
+  addTodoCard: (todoCard: TodoCard) => void;
+  removeTodoCard: (id: string) => void; // Changed to string
+}
 
-const useTodoContext = () => useContext(TodoContext)
+const TodoContext = createContext<TodoContextType | undefined>(undefined)
+
+const useTodoContext = (): TodoContextType => {
+  const context = useContext(TodoContext);
+  if (!context) {
+    throw new Error("useTodoContext must be used within a TodoContextProvider");
+  }
+  return context;
+};
 
 const TodoContextProvider = ({children}: Readonly<{
   children: React.ReactNode;
-}>) => {
-  const [todoCards, setTodoCards] = useState([])
-  const [todos, setTodos] = useState([])
+}>): JSX.Element => {
+  const [todoCards, setTodoCards] = useState<TodoCard[]>([])
+  const [todos, setTodos] = useState<Todo[]>([])
   const addTodo = (todo: Todo) => {
     setTodos(prev => [todo, ...prev])
   }

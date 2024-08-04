@@ -1,23 +1,26 @@
 'use client'
-
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import todoImg from "../../../public/todo.png"
 import noteImg from "../../../public/note.png"
 import homeImg from "../../../public/home.ico"
 import Link from 'next/link'
-import WriteButton from '../WriteButton'
 import { usePathname } from 'next/navigation'
 
-const Aside = () => {
+interface menu {
+  path: string,
+  img: StaticImageData,
+  name: string
+}
+
+const Aside: React.FC = () => {
 
   const pathname = usePathname()
-  console.log(pathname)
   
-  const menus = [
+  const menus: menu[] = [
     {
       path: "/",
       img: homeImg,
-      name: 'Home'
+      name: 'Home',
     },
     {
       path: "/todos",

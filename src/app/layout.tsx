@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/nav/Nav";
 import Aside from "@/components/aside/Aside";
-import { ThemeProvider, useTheme } from 'next-themes'
+import { ThemeProvider } from 'next-themes'
 import WriteButton from "@/components/WriteButton";
 import { DialogBox } from "@/components/shadcn-ui/DialogBox";
 import { TodoContextProvider } from "@/components/context/TodoContext";
@@ -30,24 +30,20 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-zinc-200 dark:bg-zinc-800 min-h-screen h-screen flex flex-col`}>
         <TodoContextProvider>
-        <ThemeProvider themes={['dark', "light",]} defaultTheme="dark">
-
-        
-        <Nav/>
-        
-        <main className="w-full h-full flex overflow-auto">
-          <Aside/>
-          <div className="w-full h-full flex-1">
-            {children}
-          </div>
-        </main>
-        
-        <div className="fixed bottom-4 right-4 z-30 max-[500px]:bottom-[95px]">
-          <DialogBox>
-             <WriteButton/>
-          </DialogBox>
-        </div>
-        </ThemeProvider>
+          <ThemeProvider themes={['dark', "light",]} defaultTheme="dark">
+            <Nav/>
+            <main className="w-full h-full flex overflow-auto">
+              <Aside/>
+              <div className="w-full h-full flex-1">
+                {children}
+              </div>
+            </main>
+            <div className="fixed bottom-4 right-4 z-30 max-[500px]:bottom-[95px]">
+              <DialogBox>
+                <WriteButton/>
+              </DialogBox>
+            </div>
+          </ThemeProvider>
         </TodoContextProvider>
       </body>
     </html>

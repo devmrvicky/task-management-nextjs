@@ -1,12 +1,9 @@
 "use client"
-import { Button } from "@/components/ui/button"
+
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
@@ -17,32 +14,19 @@ import { CheckBoxList } from "./CheckBox"
 import {updateData} from "../../indexDB/indexDB"
 import { useTodoContext } from "../context/TodoContext"
 
-export interface TodoCard {
-  id: String,
-  todoCardTitle?: String,
-  createdAt: Date
-}
-
-export interface Todo {
-  id: String,
-  todo: String,
-  todoCardId: String,
-  isCompleted: Boolean,
-}
-
 
 export function DialogBox({children}: Readonly<{children: ReactNode}>) {
-  const [localTodos, setLocalTodos] = useState([])
-  const [todoValue, setTodoValue] = useState("")
-  const [todoTitleValue, setTodoTitleValue] = useState("")
-  const [cardId, setCardId] = useState("")
+  const [localTodos, setLocalTodos] = useState<Todo[]>([])
+  const [todoValue, setTodoValue] = useState<string>("")
+  const [todoTitleValue, setTodoTitleValue] = useState<string>("")
+  const [cardId, setCardId] = useState<string>("")
 
-  const {addTodoCard, todos, addTodo, setTodos } = useTodoContext()
+  const {addTodoCard, setTodos } = useTodoContext()
 
   const handleAddTodo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if(!todoValue) return;
-    let id = cardId;
+    let id: string = cardId;
     if(!cardId){
       id = String(Date.now())
       setCardId(id)
@@ -69,17 +53,16 @@ export function DialogBox({children}: Readonly<{children: ReactNode}>) {
     }
   }
 
-  const handleOpenChangeDialog = (e) => {
+  const handleOpenChangeDialog = (e: boolean) => {
     if(e) {
-setTodos([])
+      setTodos([])
       setLocalTodos([])
     }
-if(!e) {
-  setTodos(localTodos)
-  setCardId("")
-  setTodoTitleValue("")
-}
-// addTodo
+    if(!e) {
+      setTodos(localTodos)
+      setCardId("")
+      setTodoTitleValue("")
+    }
   }
 
   useEffect(() => {
