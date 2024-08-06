@@ -5,8 +5,8 @@ import Nav from "@/components/nav/Nav";
 import Aside from "@/components/aside/Aside";
 import { ThemeProvider } from 'next-themes'
 import WriteButton from "@/components/WriteButton";
-import { DialogBox } from "@/components/shadcn-ui/DialogBox";
-import { TodoContextProvider } from "@/components/context/TodoContext";
+import { DialogBox } from "@/components/shadcn-ui/TodoEditor";
+import { TodoContextProvider } from "@/context/TodoContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,11 +38,6 @@ export default function RootLayout({
                 {children}
               </div>
             </main>
-            <div className="fixed bottom-4 right-4 z-30 max-[500px]:bottom-[95px]">
-              <DialogBox>
-                <WriteButton/>
-              </DialogBox>
-            </div>
           </ThemeProvider>
         </TodoContextProvider>
       </body>

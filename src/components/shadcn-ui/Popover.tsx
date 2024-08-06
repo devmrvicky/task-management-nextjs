@@ -10,7 +10,7 @@ import { deleteData } from "@/indexDB/indexDB"
 import React, { useState } from "react"
 import { HiOutlineTrash, HiTrash } from "react-icons/hi"
 import { VscLoading } from "react-icons/vsc";
-import { useTodoContext } from "../context/TodoContext"
+import { useTodoContext } from "../../context/TodoContext"
 
 export function PopoverDemo({children, todoCardId, todoIds, className}: Readonly<{children: React.ReactNode, className?: string, todoCardId: string, todoIds: Array<string>}>) {
   const [deleting, setDeleting] = useState<boolean>(false)

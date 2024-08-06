@@ -12,10 +12,10 @@ import { FormEvent, ReactNode, useEffect, useState } from "react"
 import { Checkbox } from "../ui/checkbox"
 import { CheckBoxList } from "./CheckBox"
 import {updateData} from "../../indexDB/indexDB"
-import { useTodoContext } from "../context/TodoContext"
+import { useTodoContext } from "../../context/TodoContext"
 
 
-export function DialogBox({children}: Readonly<{children: ReactNode}>) {
+export function TodoEditor({children}: Readonly<{children: ReactNode}>) {
   const [localTodos, setLocalTodos] = useState<Todo[]>([])
   const [todoValue, setTodoValue] = useState<string>("")
   const [todoTitleValue, setTodoTitleValue] = useState<string>("")

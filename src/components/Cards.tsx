@@ -1,6 +1,6 @@
 "use client"
 
-import { useTodoContext } from "@/components/context/TodoContext"
+import { useTodoContext } from "@/context/TodoContext"
 import { Card } from "@/components/shadcn-ui/MagicCard"
 import { getAllData } from "@/indexDB/indexDB"
 import { useEffect } from "react"

@@ -16,12 +16,20 @@ declare global {
 
   type storeName = 'todos' | "todo_cards" | "notes"
 
-  interface Data {
+  type Data  = {
     id: string,
     todo?: string,
     todoCardId?: string,
     isCompleted?: boolean,
     todoCardTitle?: string,
     createdAt?: Date
+  } | Note
+
+  interface Note {
+    id: string,
+    title?: string,
+    body?: string,
+    isNew?: boolean,
+    createdAt: Date,
   }
 }

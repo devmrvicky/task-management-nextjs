@@ -1,0 +1,93 @@
+"use client"
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { ReactNode, Suspense, useEffect, useRef, useState } from "react"
+import {getAllData, updateData} from "../indexDB/indexDB"
+import { ForwardRefEditor } from "./markdown/ForwardRefEditor"
+import { type MDXEditorMethods } from "@mdxeditor/editor"
+import { useTodoContext } from "@/context/TodoContext"
+
+export function NoteEditor({children}: Readonly<{children: ReactNode}>) {
+  const [noteTitleValue, setNoteTitleValue] = useState<string>("")
+  const [noteBodyValue, setNoteBodyValue] = useState<string>(``)
+  const [noteId, setNoteId] = useState<string>("")
+  const mdxEditorRef = useRef<MDXEditorMethods>(null)
+
+  const {setNotes} = useTodoContext()
+
+  const handleSaveAndUpdateNote = async (): Promise<void> => {
+      if(!noteTitleValue && !noteBodyValue) return
+      let id: string = noteId;
+      if(!noteId) {
+        id = String(Date.now());
+        setNoteId(id)
+      }
+      const data: Note = {
+        id,
+        title: noteTitleValue,
+        body: noteBodyValue,
+        isNew: true,
+        createdAt: new Date(),
+      }
+      await updateData({
+        data,
+        storeName: "notes"
+      })
+    }
+  
+
+  const handleOpenChangeDialog = async (open: boolean) => {
+    if(!open){
+      setNoteTitleValue("")
+      setNoteBodyValue("")
+      setNoteId("")
+      const notes = await getAllData({storeName: 'notes'})
+      setNotes(notes)
+    }
+  }
+
+  useEffect(() => {
+    let timeoutId;
+
+    if(timeoutId){
+      clearTimeout(timeoutId)
+    }
+    timeoutId = setTimeout(async () => {
+      await handleSaveAndUpdateNote()
+      // console.log({noteTitleValue, noteBodyValue})
+    }, 500)
+
+    return () => {
+      clearTimeout(timeoutId)
+    }
+  },[noteBodyValue, noteTitleValue])
+
+  return (
+    <Dialog onOpenChange={handleOpenChangeDialog}>
+      <DialogTrigger asChild>
+        {children}
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[700px] max-h-[500px] overflow-auto space-y-0">
+        <DialogHeader className="space-y-0">
+          <div className="border-b">
+            <Input type="text" placeholder="todo title" className="p-0 border-none border-b outline-none focus:outline-none focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 text-[1.2rem]"
+            value={noteTitleValue}
+            onChange={e => setNoteTitleValue(e.target.value)}
+            />
+          </div>
+        </DialogHeader>
+          <div className="border h-[500px]">
+            <Suspense fallback={"loading..."}>
+              <ForwardRefEditor markdown={noteBodyValue} ref={mdxEditorRef} onChange={(markdown: string) => setNoteBodyValue(markdown)}/>
+            </Suspense>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
