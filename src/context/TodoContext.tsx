@@ -11,6 +11,7 @@ interface TodoContextType {
   addTodoCard: (todoCard: TodoCard) => void;
   removeTodoCard: (id: string) => void; // Changed to string
   addNote: (note: Note) => void;
+  removeNote: (id: string) => void;
   notes: Note[],
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
 }
@@ -46,6 +47,10 @@ const TodoContextProvider = ({children}: Readonly<{
     setNotes(notes.map(note => note.id === newNote.id ? {...newNote, ...note} : note))
   }
 
+  const removeNote = (id: string) => {
+    setNotes(notes.filter(note => note.id !== id))
+  }
+
   useEffect(() => {
     (async () => {
       const notes = await getAllData({storeName: 'notes'})
@@ -54,7 +59,7 @@ const TodoContextProvider = ({children}: Readonly<{
   }, [])
 
   return (
-    <TodoContext.Provider value={{todoCards, todos, setTodoCards, setTodos, addTodo, addTodoCard, removeTodoCard, addNote, setNotes, notes}}>
+    <TodoContext.Provider value={{todoCards, todos, setTodoCards, setTodos, addTodo, addTodoCard, removeTodoCard, addNote, removeNote, setNotes, notes}}>
       {children}
     </TodoContext.Provider>
   )

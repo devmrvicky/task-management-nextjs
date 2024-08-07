@@ -13,9 +13,10 @@ import { ForwardRefEditor } from "./markdown/ForwardRefEditor"
 import { type MDXEditorMethods } from "@mdxeditor/editor"
 import { useTodoContext } from "@/context/TodoContext"
 
-export function NoteEditor({children}: Readonly<{children: ReactNode}>) {
+export function NoteEditor({children, prevNote}: Readonly<{children: ReactNode, prevNote?: Note}>) {
+  const [modelClose, setModelClose] = useState<boolean>(false)
   const [noteTitleValue, setNoteTitleValue] = useState<string>("")
-  const [noteBodyValue, setNoteBodyValue] = useState<string>(``)
+  const [noteBodyValue, setNoteBodyValue] = useState<string>("")
   const [noteId, setNoteId] = useState<string>("")
   const mdxEditorRef = useRef<MDXEditorMethods>(null)
 
@@ -43,6 +44,7 @@ export function NoteEditor({children}: Readonly<{children: ReactNode}>) {
   
 
   const handleOpenChangeDialog = async (open: boolean) => {
+    setModelClose(open)
     if(!open){
       setNoteTitleValue("")
       setNoteBodyValue("")
@@ -67,6 +69,13 @@ export function NoteEditor({children}: Readonly<{children: ReactNode}>) {
       clearTimeout(timeoutId)
     }
   },[noteBodyValue, noteTitleValue])
+
+  useEffect(() => {
+    if(!prevNote) return;
+    setNoteTitleValue(prevNote.title ? prevNote.title : "")
+    setNoteBodyValue(prevNote.body ? prevNote.body : "")
+    setNoteId(prevNote.id)
+  }, [prevNote, modelClose])
 
   return (
     <Dialog onOpenChange={handleOpenChangeDialog}>
