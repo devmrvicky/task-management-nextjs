@@ -13,6 +13,7 @@ import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
 import { MdCloseFullscreen } from 'react-icons/md'
+import Markdown from 'markdown-to-jsx'
 
 const page = () => {
   const [fullScreen, setFullScreen] = useState<boolean>(false)
@@ -49,7 +50,9 @@ const page = () => {
     </Popover>
       </header>
       <div className='max-w-[900px] w-full mx-auto'>
-        {note?.body}
+        {note?.body && <Markdown key={note.body}>
+          {note.body}
+        </Markdown>}
       </div>
     </div>
   )

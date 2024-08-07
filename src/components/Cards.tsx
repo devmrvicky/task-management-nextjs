@@ -13,7 +13,7 @@ const Cards = (): JSX.Element => {
     const cards = await getAllData({storeName: "todo_cards"})
     setTodoCards(cards)
   })()
-  }, [getAllData, todoCards.length])
+  }, [setTodoCards, todoCards.length])
   return (
       <div className="cards flex gap-2 flex-wrap justify-center max-[500px]:pb-20">
       {todoCards.map((card) => <Card key={card.id} {...card}/>)}
