@@ -4,8 +4,6 @@ import "./globals.css";
 import Nav from "@/components/nav/Nav";
 import Aside from "@/components/aside/Aside";
 import { ThemeProvider } from 'next-themes'
-import WriteButton from "@/components/WriteButton";
-import { DialogBox } from "@/components/shadcn-ui/TodoEditor";
 import { TodoContextProvider } from "@/context/TodoContext";
 
 const inter = Inter({ subsets: ["latin"] });
