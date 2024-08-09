@@ -28,7 +28,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest"></link>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
       </head>
-      <body className={`${inter.className} bg-zinc-200 dark:bg-zinc-800 min-h-screen h-screen flex flex-col`}>
+      <body className={`${inter.className} bg-zinc-200 dark:bg-zinc-800 min-h-screen h-screen flex flex-col font-[poppins]`}>
         <TodoContextProvider>
           <ThemeProvider themes={['dark', "light",]} defaultTheme="dark">
             <Nav/>

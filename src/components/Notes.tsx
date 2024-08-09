@@ -22,20 +22,20 @@ const Notes = (): JSX.Element => {
   // console.log(router)
 
   return (
-    <div className='w-full border  flex flex-col gap-2'>
+    <div className='w-full border flex flex-col gap-2 max-[700px]:pb-20'>
       {notes.map(note => <MagicCard key={note.id}
       className="cursor-pointer flex flex-row shadow-md whitespace-nowrap overflow-hidden p-3 h-[82px]"
       gradientColor={color}
       
       >
-        <div className='w-full h-full flex gap-2'
+        <div className='w-full h-full flex gap-2 overflow-hidden max-[500px]:text-[0.8rem]'
         onClick={() => {push(`/notes/${note.title?.split(" ").join("-")}`)}}>
           <div className='w-12 h-auto'>
             <Image src={textPng} alt="note" className='w-full h-full'/>
           </div>
           <div className='flex flex-col gap-2 text-ellipsis whitespace-nowrap'>
             <div className="note-head flex items-center gap-1">
-              <h3 className='text-xl font-[600]'>{note.title}</h3>
+              <h3 className='text-xl font-[600] max-[500px]:text-[1rem]'>{note.title}</h3>
               <span>.</span>
               <span className='text-zinc-400 text-sm'>{note.createdAt.getFullYear()}</span>
             </div>

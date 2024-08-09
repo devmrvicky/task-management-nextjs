@@ -15,7 +15,7 @@ const Cards = (): JSX.Element => {
   })()
   }, [setTodoCards, todoCards.length])
   return (
-      <div className="cards flex gap-2 flex-wrap justify-center max-[500px]:pb-20">
+      <div className="cards flex gap-2 flex-wrap justify-start max-[700px]:pb-20">
       {todoCards.map((card) => <Card key={card.id} {...card}/>)}
       {/* <Card/> */}
       </div>
