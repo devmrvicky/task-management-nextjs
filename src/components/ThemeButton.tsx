@@ -9,6 +9,7 @@ const ThemeButton = () => {
   const {theme, setTheme} = useTheme()
   
   useEffect(() => {
+    if(!theme) return;
     document.querySelector("html")?.setAttribute("data-theme", theme)
     document.querySelector("html")?.setAttribute("class", theme)
 
