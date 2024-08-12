@@ -1,6 +1,6 @@
 "use client"
 import { getAllData } from "@/indexDB/indexDB";
-import { useContext, createContext, useState, useEffect } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 
 interface TodoContextType {
   todoCards: TodoCard[];
@@ -14,6 +14,12 @@ interface TodoContextType {
   removeNote: (id: string) => void;
   notes: Note[],
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
+  createFolder: boolean;
+  setCreateFolder: React.Dispatch<React.SetStateAction<boolean>>;
+  folders: Folder[];
+  setFolders: React.Dispatch<React.SetStateAction<Folder[]>>;
+  addFolder: (newFolder: Folder) => void;
+  removeFolder: (id: string) => void
 }
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined)
@@ -32,6 +38,8 @@ const TodoContextProvider = ({children}: Readonly<{
   const [todoCards, setTodoCards] = useState<TodoCard[]>([])
   const [todos, setTodos] = useState<Todo[]>([])
   const [notes, setNotes] = useState<Note[]>([])
+  const [createFolder, setCreateFolder] = useState<boolean>(false)
+  const [folders, setFolders] = useState<Folder[]>([])
 
   const addTodo = (todo: Todo) => {
     setTodos(prev => [todo, ...prev])
@@ -51,15 +59,26 @@ const TodoContextProvider = ({children}: Readonly<{
     setNotes(notes.filter(note => note.id !== id))
   }
 
+  const addFolder = (newFolder: Folder) => {
+    setFolders(folders.map(folder => folder.id === newFolder.id ? {...newFolder, ...folder} : folder))
+  }
+
+  const removeFolder = (id: string) => {
+    setFolders(folders.filter(folder => folder.id !== id))
+  }
+
   useEffect(() => {
     (async () => {
       const notes = await getAllData({storeName: 'notes'})
       setNotes(notes)
+      const folders = await getAllData({storeName: 'folders'})
+      console.log(folders)
+      setFolders(folders)
     })()
   }, [])
 
   return (
-    <TodoContext.Provider value={{todoCards, todos, setTodoCards, setTodos, addTodo, addTodoCard, removeTodoCard, addNote, removeNote, setNotes, notes}}>
+    <TodoContext.Provider value={{todoCards, todos, setTodoCards, setTodos, addTodo, addTodoCard, removeTodoCard, addNote, removeNote, setNotes, notes, createFolder, setCreateFolder, folders, setFolders, addFolder, removeFolder}}>
       {children}
     </TodoContext.Provider>
   )

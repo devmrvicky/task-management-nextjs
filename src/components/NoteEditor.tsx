@@ -13,6 +13,8 @@ import { ForwardRefEditor } from "./markdown/ForwardRefEditor"
 import { type MDXEditorMethods } from "@mdxeditor/editor"
 import { useTodoContext } from "@/context/TodoContext"
 import { DialogTitle } from "@radix-ui/react-dialog"
+import { useParams } from "next/navigation"
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher"
 
 export function NoteEditor({children, prevNote}: Readonly<{children: ReactNode, prevNote?: Note}>) {
   const [modelClose, setModelClose] = useState<boolean>(false)
@@ -22,6 +24,7 @@ export function NoteEditor({children, prevNote}: Readonly<{children: ReactNode, 
   const mdxEditorRef = useRef<MDXEditorMethods>(null)
 
   const {setNotes} = useTodoContext()
+  const {folder: folderSlug}: {folder?: string} = useParams<Params>()
 
   const handleSaveAndUpdateNote = async (): Promise<void> => {
       if(!noteTitleValue && !noteBodyValue) return
@@ -36,6 +39,8 @@ export function NoteEditor({children, prevNote}: Readonly<{children: ReactNode, 
         body: noteBodyValue,
         isNew: true,
         createdAt: new Date(),
+        slug: noteTitleValue.split(" ").join("-") + "-" + id,
+        parentFolderId: folderSlug ? folderSlug.split("-").at(-1) : "",
       }
       await updateData({
         data,
@@ -85,7 +90,7 @@ export function NoteEditor({children, prevNote}: Readonly<{children: ReactNode, 
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px] max-h-[500px] overflow-auto space-y-0">
         <DialogHeader className="space-y-0">
-          <DialogTitle>"note editor"</DialogTitle>
+          <DialogTitle className="hidden">"note editor"</DialogTitle>
           <div className="border-b">
             <Input type="text" placeholder="todo title" className="p-0 border-none border-b outline-none focus:outline-none focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 text-[1.2rem]"
             value={noteTitleValue}

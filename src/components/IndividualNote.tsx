@@ -14,40 +14,42 @@ import React, { useEffect, useState } from 'react'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
 import { MdCloseFullscreen } from 'react-icons/md'
 import Markdown from 'markdown-to-jsx'
+import MoveFolderButton from './MoveFolderButton'
 
 const IndividualNote = () => {
   const [fullScreen, setFullScreen] = useState<boolean>(false)
   const [note, setNote] = useState<Note>()
-  const {note: noteTitle} = useParams<Params>()
+  const {note: noteSlug, folder: folderSlug}: {note?: string, folder?: string} = useParams<Params>()
+  console.log({noteSlug, folderSlug})
   const {notes} = useTodoContext()
+  let filteredNotes: Note[] = notes.filter(note => folderSlug ? note.parentFolderId === folderSlug?.split("-").at(-1) : !note.parentFolderId)
 
   useEffect(() => {
-    if(!noteTitle) return;
-    const note =  notes.find((note: Note) =>  note.title === noteTitle.split("-").join(" "))
+    if(!noteSlug) return;
+    const note =  filteredNotes.find((note: Note) => note.slug === noteSlug)
     if(!note) return;
     setNote(note)
-  }, [noteTitle, notes.length, note?.title, note?.body])
+  }, [noteSlug, notes.length, note?.title, note?.body])
 
   return (
     <div className={`dark:bg-zinc-950 bg-zinc-100 p-2 rounded-md ${fullScreen && "w-full h-full fixed top-0 left-0 z-30 overflow-auto"}`}>
       <header className='flex items-center gap-1 pb-2'>
         <BackButton/>
-        {/* <h1>{note?.title}</h1> */}
-        <ComboboxDemo title={note?.title}/>
+        {note && <ComboboxDemo title={note?.title} slug={note.slug} filteredNotes={filteredNotes}/>}
         <div className="ml-auto max-[950px]:hidden">
-        <NoteMenuOptions fullScreen={fullScreen} setFullScreen={setFullScreen} note={note} withText={false}/>
+        <NoteMenuOptions fullScreen={fullScreen} setFullScreen={setFullScreen} note={note} withText={false} />
         </div>
         <Popover>
-      <PopoverTrigger asChild className="ml-auto min-[950px]:hidden">
-        <Button variant="ghost">
-          <HiOutlineDotsVertical className="w-5 h-5"/>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className={`right-[-3px] absolute top-[-35px] w-[180px]`}>
-        <span className="text-sm text-zinc-600">Menu</span>
-        <NoteMenuOptions fullScreen={fullScreen} setFullScreen={setFullScreen} note={note} withText={true}/>
-      </PopoverContent>
-    </Popover>
+          <PopoverTrigger asChild className="ml-auto min-[950px]:hidden">
+            <Button variant="ghost">
+              <HiOutlineDotsVertical className="w-5 h-5"/>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className={`right-[-3px] absolute top-[-35px] w-[180px]`}>
+            <span className="text-sm text-zinc-600">Menu</span>
+            <NoteMenuOptions fullScreen={fullScreen} setFullScreen={setFullScreen} note={note} withText={true}/>
+          </PopoverContent>
+        </Popover>
       </header>
       <div className='max-w-[900px] w-full mx-auto'>
         {note?.body && <Markdown key={note.body}>
@@ -74,6 +76,7 @@ const NoteMenuOptions = ({fullScreen, setFullScreen, note, withText}: {fullScree
               {withText && <span>Edit</span>}
             </Button>
           </NoteEditor>
+          {note && <MoveFolderButton storeName='notes' targetItem={note}/>}
           {note && <DeleteButton id={note?.id} storeName='notes'/>}
         </div>
   )

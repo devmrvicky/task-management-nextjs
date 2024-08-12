@@ -1,5 +1,5 @@
 const DB_NAME = "manage_tasks";
-const storeNames: storeName[] = ["todo_cards", "todos", "notes"];
+const storeNames: storeName[] = ["todo_cards", "todos", "notes", "folders"];
 
 function openDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {

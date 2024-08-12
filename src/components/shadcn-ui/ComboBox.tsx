@@ -21,21 +21,22 @@ import {
 import { useTodoContext } from "@/context/TodoContext"
 import { useRouter } from "next/navigation"
 
-export function ComboboxDemo({title} : {title?: string}) {
+export function ComboboxDemo({title, slug, filteredNotes} : {title?: string, slug: string, filteredNotes: Note[]}) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState<string>("")
-  const {notes} = useTodoContext()
+  // const {notes} = useTodoContext()
+  // const filteredNotes: Note[] = notes.filter(note => note.parentFolderId === folderSlug?.split("-").at(-1))
   const {push} = useRouter()
   const handleOpenNote = (currentValue: string) => {
-    setValue(currentValue === value?.split(" ").join("-") ? "" : currentValue)
+    setValue(currentValue === value ? "" : currentValue)
     setOpen(false)
     push(currentValue)
   }
   React.useEffect(() => {
-    if(title){
-      setValue(title?.split(" ").join("-"))
+    if(slug){
+      setValue(slug)
     }
-  }, [title])
+  }, [slug])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -47,7 +48,7 @@ export function ComboboxDemo({title} : {title?: string}) {
           className="flex-1 text-left justify-between h-auto text-wrap"
         >
           {value
-            ? notes.find((note) => note.title?.split(" ").join("-") === value)?.title
+            ? filteredNotes.find((note) => note.slug === value)?.title
             : "Select note..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -58,16 +59,16 @@ export function ComboboxDemo({title} : {title?: string}) {
           <CommandList>
             <CommandEmpty>No note found.</CommandEmpty>
             <CommandGroup>
-              {notes.map((note) => (
+              {filteredNotes.map((note) => (
                 <CommandItem
                   key={note.title}
-                  value={note.title?.split(" ").join("-")}
+                  value={note.slug}
                   onSelect={handleOpenNote}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === note.title?.split(" ").join("-") ? "opacity-100" : "opacity-0"
+                      value === note.slug ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {note.title}

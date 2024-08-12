@@ -14,7 +14,7 @@ declare global {
     createdAt: Date
   }
 
-  type storeName = 'todos' | "todo_cards" | "notes"
+  type storeName = 'todos' | "todo_cards" | "notes" | "folders"
 
   type Data  = {
     id: string,
@@ -23,7 +23,7 @@ declare global {
     isCompleted?: boolean,
     todoCardTitle?: string,
     createdAt?: Date
-  } | Note
+  } | Note | Folder
 
   interface Note {
     id: string,
@@ -31,5 +31,26 @@ declare global {
     body?: string,
     isNew?: boolean,
     createdAt: Date,
+    parentFolderId?: string,
+    slug: string
+  }
+
+  interface Folder {
+    id: string,
+    folderName: string,
+    createdAt: Date,
+    parentFolderId?: string,
+    slug: string
+  }
+
+  interface combineData {
+    id: string,
+    title?: string,
+    body?: string,
+    isNew?: boolean,
+    folderName?: string,
+    createdAt: Date,
+    parentFolderId?: string,
+    slug: string
   }
 }

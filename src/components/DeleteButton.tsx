@@ -6,9 +6,9 @@ import { useTodoContext } from '@/context/TodoContext'
 import { HiOutlineTrash } from 'react-icons/hi'
 import { useRouter } from 'next/navigation'
 
-const DeleteButton = ({id, storeName, todoIds}: {id: string, storeName: storeName, todoIds?: string[]}): JSX.Element => {
+const DeleteButton = ({id, storeName, todoIds,nestedIds}: {id: string, storeName: storeName, todoIds?: string[], nestedIds?: string[]}): JSX.Element => {
   const [deleting, setDeleting] = useState<boolean>(false)
-  const {removeNote, removeTodoCard} = useTodoContext()
+  const {removeNote, removeTodoCard, removeFolder} = useTodoContext()
   const {push} = useRouter()
   const handleDelete = async (): Promise<void> => {
     try {
@@ -19,11 +19,19 @@ const DeleteButton = ({id, storeName, todoIds}: {id: string, storeName: storeNam
           await deleteData({id, storeName: "todos"})
         }
       }
+      if(nestedIds){
+        for(let id of nestedIds){
+          await deleteData({id, storeName: "folders"})
+          await deleteData({id, storeName: "notes"})
+        }
+      }
       if(storeName === "notes"){
         removeNote(id)
         push("/notes")
       } else if(storeName === 'todo_cards'){
         removeTodoCard(id)
+      } else if(storeName === "folders"){
+        removeFolder(id)
       }
     } catch (error) {
       console.log(error)
