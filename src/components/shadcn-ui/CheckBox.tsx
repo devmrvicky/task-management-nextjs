@@ -6,7 +6,7 @@ import { CheckedState } from "@radix-ui/react-checkbox"
 import { useState } from "react"
 
 export function CheckBoxList({todo}: {todo: Todo}) {
-  const [checked, setChecked] = useState(todo?.isCompleted)
+  const [checked, setChecked] = useState<CheckedState>(todo?.isCompleted)
   const handleCheckChange = async (checked: CheckedState): Promise<void> => {
     await updateData({data: {...todo, isCompleted: checked}, storeName: "todos"})
     setChecked(checked)

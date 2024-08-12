@@ -1,4 +1,3 @@
-"use client"
 import IndividualNote from '@/components/IndividualNote'
 
 const page = () => {

@@ -1,3 +1,5 @@
+import { CheckedState } from "@radix-ui/react-checkbox"
+
 export {}
 
 declare global {
@@ -20,7 +22,7 @@ declare global {
     id: string,
     todo?: string,
     todoCardId?: string,
-    isCompleted?: boolean,
+    isCompleted?: boolean | CheckedState,
     todoCardTitle?: string,
     createdAt?: Date
   } | Note | Folder

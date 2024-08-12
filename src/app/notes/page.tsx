@@ -3,7 +3,6 @@ import Notes from '@/components/Notes'
 import WriteButton from '@/components/WriteButton'
 import React from 'react'
 import FolderCreateButton from "@/components/FolderCreateButton"
-import CreateFolderInput from '@/components/CreateFolderInput'
 
 const page = () => {
   return (

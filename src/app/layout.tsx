@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/nav/Nav";
 import Aside from "@/components/aside/Aside";
 import { ThemeProvider } from 'next-themes'
 import { TodoContextProvider } from "@/context/TodoContext";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Simple todo - manage daily tasks",
@@ -26,7 +23,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest"></link>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
       </head>
-      <body className={`${inter.className} bg-zinc-200 dark:bg-zinc-800 min-h-screen h-screen flex flex-col font-[poppins]`}>
+      <body className={`bg-zinc-200 dark:bg-zinc-800 min-h-screen h-screen flex flex-col font-[poppins]`}>
         <TodoContextProvider>
           <ThemeProvider themes={['dark', "light",]} defaultTheme="dark">
             <Nav/>
