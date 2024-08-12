@@ -1,3 +1,5 @@
+"use client"
+
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 import { useParams } from 'next/navigation'
 import React from 'react'
