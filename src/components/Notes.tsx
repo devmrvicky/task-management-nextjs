@@ -37,7 +37,7 @@ const Notes = (): JSX.Element => {
     <div className='w-full border flex flex-col gap-2 max-[700px]:pb-20'>
       <CreateFolderInput parentFolderId={folderId}/>
       {combineData.map(note => (
-        note.folderName ? <Folder folder={note} totalInsideItems={[...notes, ...folders].filter(data => data.parentFolderId === note.id)}/>  :(
+        note.folderName ? <Folder key={note.id} folder={note} totalInsideItems={[...notes, ...folders].filter(data => data.parentFolderId === note.id)}/>  :(
         <MagicCard 
           key={note.id}
           className="cursor-pointer flex flex-row shadow-md whitespace-nowrap overflow-hidden p-3 h-[82px]"

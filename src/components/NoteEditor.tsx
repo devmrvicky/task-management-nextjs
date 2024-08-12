@@ -74,7 +74,7 @@ export function NoteEditor({children, prevNote}: Readonly<{children: ReactNode, 
     return () => {
       clearTimeout(timeoutId)
     }
-  },[noteBodyValue, noteTitleValue])
+  },[noteBodyValue, noteTitleValue, handleSaveAndUpdateNote])
 
   useEffect(() => {
     if(!prevNote) return;
